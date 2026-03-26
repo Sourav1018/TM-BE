@@ -16,7 +16,10 @@
     "moduleResolution": "nodenext",
 
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@lib/*": ["./src/lib/*"],
+      "@generated/*": ["./src/generated/*"],
+      "env": ["./src/lib/env"]
     }
   },
   "include": ["src"],
