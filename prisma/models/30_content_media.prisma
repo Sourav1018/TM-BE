@@ -1,0 +1,107 @@
+model InclusionExclusionCategory {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name      String
+  slug      String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+
+  inclusions Inclusion[]
+  exclusions Exclusion[]
+
+  @@map("inclusion_exclusion_categories")
+}
+
+model Inclusion {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name       String   @unique
+  icon       String?
+  slug       String   @unique
+  categoryId String   @map("category_id") @db.Uuid
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  category          InclusionExclusionCategory @relation(fields: [categoryId], references: [id])
+  packageInclusions PackageInclusion[]
+
+  @@index([categoryId])
+  @@map("inclusions")
+}
+
+model Exclusion {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name       String   @unique
+  icon       String?
+  slug       String   @unique
+  categoryId String   @map("category_id") @db.Uuid
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  category          InclusionExclusionCategory @relation(fields: [categoryId], references: [id])
+  packageExclusions PackageExclusion[]
+
+  @@index([categoryId])
+  @@map("exclusions")
+}
+
+model PackageInclusion {
+  id          String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  packageId   String @map("package_id") @db.Uuid
+  inclusionId String @map("inclusion_id") @db.Uuid
+
+  package   Package   @relation(fields: [packageId], references: [id])
+  inclusion Inclusion @relation(fields: [inclusionId], references: [id])
+
+  @@unique([packageId, inclusionId])
+  @@index([packageId])
+  @@index([inclusionId])
+  @@map("package_inclusions")
+}
+
+model PackageExclusion {
+  id          String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  packageId   String @map("package_id") @db.Uuid
+  exclusionId String @map("exclusion_id") @db.Uuid
+
+  package   Package   @relation(fields: [packageId], references: [id])
+  exclusion Exclusion @relation(fields: [exclusionId], references: [id])
+
+  @@unique([packageId, exclusionId])
+  @@index([packageId])
+  @@index([exclusionId])
+  @@map("package_exclusions")
+}
+
+model MediaMaster {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  fileName  String   @map("file_name")
+  url       String
+  mimeType  String   @map("mime_type")
+  width     Int?
+  height    Int?
+  sizeBytes BigInt?  @map("size_bytes")
+  metadata  Json?
+  isDeleted Boolean  @default(false) @map("is_deleted")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  variants     MediaVariant[]
+  packageMedia PackageMedia[]
+
+  @@map("media_masters")
+}
+
+model MediaVariant {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  mediaId    String   @map("media_id") @db.Uuid
+  variantKey String   @map("variant_key")
+  url        String
+  width      Int?
+  height     Int?
+  sizeBytes  BigInt?  @map("size_bytes")
+  metadata   Json?
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  media MediaMaster @relation(fields: [mediaId], references: [id])
+
+  @@unique([mediaId, variantKey])
+  @@index([mediaId])
+  @@index([variantKey])
+  @@map("media_variants")
+}
