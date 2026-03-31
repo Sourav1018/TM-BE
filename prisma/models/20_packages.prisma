@@ -3,6 +3,7 @@ model Package {
   title          String
   description    String
   price          Decimal       @db.Decimal(10, 2)
+  comparePrice   Decimal       @map("compare_price") @db.Decimal(10, 2)
   durationDays   Int           @map("duration_days")
   durationNights Int           @map("duration_nights")
   placeId        String        @map("place_id") @db.Uuid
@@ -12,7 +13,7 @@ model Package {
   updatedAt      DateTime      @updatedAt @map("updated_at")
   deletedAt      DateTime?     @map("deleted_at")
 
-  place             Place         @relation(fields: [placeId], references: [id])
+  place             Place              @relation(fields: [placeId], references: [id])
   packageMedia      PackageMedia[]
   itineraries       PackageItinerary[]
   packageInclusions PackageInclusion[]
@@ -48,8 +49,8 @@ model PackageItinerary {
 
   package Package @relation(fields: [packageId], references: [id])
 
-  @@index([packageId])
   @@unique([packageId, dayNumber])
+  @@index([packageId])
   @@map("package_itinerary")
 }
 
