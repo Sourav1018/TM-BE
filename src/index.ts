@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import { env } from "env";
 import { prisma } from "@/lib/prisma";
+import { redis } from "@/lib/redis";
 
 const app = express();
 const PORT = env.PORT;
@@ -14,6 +15,12 @@ app.get("/", (_req: Request, res: Response) => {
 async function startServer() {
   await prisma.$queryRaw`SELECT 1`;
   console.log("Database connection established.");
+
+  if (!redis.isOpen) {
+    await redis.connect();
+  }
+  const redisPing = await redis.ping();
+  console.log("Redis connection established. with the response:", redisPing);
 
   const server = app.listen(PORT, () => {
     console.log(`Server listening on http://localhost:${PORT}`);
@@ -40,10 +47,23 @@ async function startServer() {
       if (error) {
         console.error("Error while closing HTTP server:", error);
       }
+
+      let hasDisconnectError = Boolean(error);
+
+      try {
+        if (redis.isOpen) {
+          await redis.quit();
+          console.log("Disconnected from Redis.");
+        }
+      } catch (redisDisconnectError) {
+        hasDisconnectError = true;
+        console.error("Error while disconnecting Redis:", redisDisconnectError);
+      }
+
       try {
         await prisma.$disconnect();
         console.log("Disconnected from database.");
-        process.exit(error ? 1 : 0);
+        process.exit(hasDisconnectError ? 1 : 0);
       } catch (disconnectError) {
         console.error("Error while disconnecting database:", disconnectError);
         process.exit(1);
@@ -57,6 +77,14 @@ async function startServer() {
 
 startServer().catch(async (error: unknown) => {
   console.error("Failed to start server:", error);
+  try {
+    if (redis.isOpen) {
+      await redis.quit();
+      console.log("Disconnected from Redis.");
+    }
+  } catch (redisDisconnectError) {
+    console.error("Error while disconnecting Redis:", redisDisconnectError);
+  }
   await prisma.$disconnect();
   process.exit(1);
 });
