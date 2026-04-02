@@ -1,16 +1,10 @@
-import express, { Request, Response } from "express";
 import { env } from "env";
+import { createApp } from "@/app";
 import { prisma } from "@/lib/prisma";
 import { redis } from "@/lib/redis";
 
-const app = express();
+const app = createApp();
 const PORT = env.PORT;
-
-app.use(express.json());
-
-app.get("/", (_req: Request, res: Response) => {
-  res.status(200).json({ message: "Express + TypeScript server is running." });
-});
 
 async function startServer() {
   await prisma.$queryRaw`SELECT 1`;
