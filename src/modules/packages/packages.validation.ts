@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { HttpError } from "@/shared/http/http-error";
+import { AppError } from "@/shared/errors/app-error";
+import { ERROR_CODES } from "@/shared/errors/error-codes";
 
 const createPackageSchema = z.object({
   title: z.string().trim().min(1),
@@ -20,12 +21,9 @@ export class PackagesValidation {
     const parsed = createPackageSchema.safeParse(payload);
 
     if (!parsed.success) {
-      throw new HttpError(
-        "Invalid create package payload.",
-        400,
-        "VALIDATION_ERROR",
-        parsed.error.flatten(),
-      );
+      throw new AppError(ERROR_CODES.VALIDATION_ERROR, {
+        details: parsed.error.flatten(),
+      });
     }
 
     return parsed.data;

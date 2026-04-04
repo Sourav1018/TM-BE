@@ -1,28 +1,54 @@
 import { prisma } from "@/lib/prisma";
+import { PackageDto } from "@/modules/packages/dto/package.dto";
+import { toPackageDto } from "@/modules/packages/mappers/package.mapper";
 import {
-  CreatedPackage,
   PackageRef,
   PackagesRepositoryPort,
 } from "@/modules/packages/packages.repository.port";
 import { CreatePackageInput } from "@/modules/packages/packages.validation";
 
+export const createdPackageSelect = {
+  id: true,
+  title: true,
+  description: true,
+  price: true,
+  comparePrice: true,
+  durationDays: true,
+  durationNights: true,
+  placeId: true,
+  slug: true,
+  status: true,
+  createdAt: true,
+  updatedAt: true,
+} as const;
+
+export type CreatedPackageRow = Awaited<
+  ReturnType<PrismaPackagesRepository["createPackageRecord"]>
+>;
+
 export class PrismaPackagesRepository implements PackagesRepositoryPort {
   async findPackageBySlug(slug: string): Promise<PackageRef | null> {
-    return prisma.package.findUnique({
+    const db = prisma as any;
+
+    return db.package.findUnique({
       where: { slug },
       select: { id: true },
     });
   }
 
   async findPlaceById(placeId: string): Promise<PackageRef | null> {
-    return prisma.place.findUnique({
+    const db = prisma as any;
+
+    return db.place.findUnique({
       where: { id: placeId },
       select: { id: true },
     });
   }
 
-  async createPackage(input: CreatePackageInput): Promise<CreatedPackage> {
-    return prisma.package.create({
+  async createPackageRecord(input: CreatePackageInput) {
+    const db = prisma as any;
+
+    return db.package.create({
       data: {
         title: input.title,
         description: input.description,
@@ -34,20 +60,13 @@ export class PrismaPackagesRepository implements PackagesRepositoryPort {
         slug: input.slug,
         status: input.status,
       },
-      select: {
-        id: true,
-        title: true,
-        description: true,
-        price: true,
-        comparePrice: true,
-        durationDays: true,
-        durationNights: true,
-        placeId: true,
-        slug: true,
-        status: true,
-        createdAt: true,
-        updatedAt: true,
-      },
+      select: createdPackageSelect,
     });
+  }
+
+  async createPackage(input: CreatePackageInput): Promise<PackageDto> {
+    const createdPackage = await this.createPackageRecord(input);
+
+    return toPackageDto(createdPackage);
   }
 }
