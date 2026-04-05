@@ -1,3 +1,4 @@
+import { Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 import { PackageDto } from "@/modules/packages/dto/package.dto";
 import { toPackageDto } from "@/modules/packages/mappers/package.mapper";
@@ -22,13 +23,13 @@ export const createdPackageSelect = {
   updatedAt: true,
 } as const;
 
-export type CreatedPackageRow = Awaited<
-  ReturnType<PrismaPackagesRepository["createPackageRecord"]>
->;
+export type CreatedPackageRow = Prisma.PackageGetPayload<{
+  select: typeof createdPackageSelect;
+}>;
 
 export class PrismaPackagesRepository implements PackagesRepositoryPort {
   async findPackageBySlug(slug: string): Promise<PackageRef | null> {
-    const db = prisma as any;
+    const db = prisma;
 
     return db.package.findUnique({
       where: { slug },
@@ -37,7 +38,7 @@ export class PrismaPackagesRepository implements PackagesRepositoryPort {
   }
 
   async findPlaceById(placeId: string): Promise<PackageRef | null> {
-    const db = prisma as any;
+    const db = prisma;
 
     return db.place.findUnique({
       where: { id: placeId },
@@ -46,7 +47,7 @@ export class PrismaPackagesRepository implements PackagesRepositoryPort {
   }
 
   async createPackageRecord(input: CreatePackageInput) {
-    const db = prisma as any;
+    const db = prisma;
 
     return db.package.create({
       data: {
