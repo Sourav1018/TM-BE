@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { AppError } from "@/shared/errors/app-error";
 import { ERROR_CODES } from "@/shared/errors/error-codes";
+import { ApiResponse } from "@/shared/http/api-response";
 import { HTTP_STATUS } from "@/shared/http/http-status";
 import { PackagesUseCase } from "@/modules/packages/packages.usecase";
 import { PackagesValidation } from "@/modules/packages/packages.validation";
@@ -21,7 +22,7 @@ export class PackagesController {
       const input = PackagesValidation.validateCreatePackageInput(req.body);
       const createdPackage = await this.packagesUseCase.createPackage(input);
 
-      res.status(HTTP_STATUS.CREATED).json({ data: createdPackage });
+      return ApiResponse.success(res, HTTP_STATUS.CREATED, createdPackage);
     } catch (error: unknown) {
       const appError =
         error instanceof AppError
@@ -32,13 +33,7 @@ export class PackagesController {
         console.error("Unexpected error while creating package:", error);
       }
 
-      res.status(appError.statusCode).json({
-        error: {
-          code: appError.code,
-          message: appError.message,
-          details: appError.details,
-        },
-      });
+      return ApiResponse.error(res, appError);
     }
   };
 }
