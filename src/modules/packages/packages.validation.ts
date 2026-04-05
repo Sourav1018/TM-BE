@@ -9,7 +9,7 @@ const createPackageSchema = z.object({
   comparePrice: z.coerce.number().positive(),
   durationDays: z.coerce.number().int().positive(),
   durationNights: z.coerce.number().int().positive(),
-  placeId: z.string().uuid(),
+  placeId: z.uuid(),
   slug: z.string().trim().min(1),
   status: z.enum(["draft", "published", "archived"]).default("draft"),
 });
@@ -22,7 +22,7 @@ export class PackagesValidation {
 
     if (!parsed.success) {
       throw new AppError(ERROR_CODES.VALIDATION_ERROR, {
-        details: parsed.error.flatten(),
+        details: z.flattenError(parsed.error),
       });
     }
 
