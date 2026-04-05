@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { PackagesController } from "@/modules/packages/packages.controller";
+import type { PackagesController } from "@/modules/packages/packages.controller";
 
 export function createPackagesRouter(packagesController: PackagesController) {
   const packagesRouter = Router();
