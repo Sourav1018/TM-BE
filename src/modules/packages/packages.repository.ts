@@ -1,7 +1,7 @@
 import { Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 import { PackageDto } from "@/modules/packages/dto/package.dto";
-import { toPackageDto } from "@/modules/packages/mappers/package.mapper";
+import { packageMapper } from "@/modules/packages/mappers/package.mapper";
 import {
   PackageRef,
   PackagesRepositoryPort,
@@ -68,6 +68,6 @@ export class PrismaPackagesRepository implements PackagesRepositoryPort {
   async createPackage(input: CreatePackageInput): Promise<PackageDto> {
     const createdPackage = await this.createPackageRecord(input);
 
-    return toPackageDto(createdPackage);
+    return packageMapper.toCreatePackageDto(createdPackage);
   }
 }

@@ -1,18 +1,18 @@
 import { z } from "zod";
 
 export const packageDtoSchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid(),
   title: z.string(),
   description: z.string(),
   price: z.string(),
   comparePrice: z.string(),
-  durationDays: z.number().int(),
-  durationNights: z.number().int(),
-  placeId: z.string().uuid(),
+  durationDays: z.string(),
+  durationNights: z.string(),
+  placeId: z.uuid(),
   slug: z.string(),
   status: z.enum(["draft", "published", "archived"]),
-  createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime(),
+  createdAt: z.iso.datetime(),
+  updatedAt: z.iso.datetime(),
 });
 
 export type PackageDto = z.infer<typeof packageDtoSchema>;
