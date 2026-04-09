@@ -3,7 +3,7 @@ import {
   CountrySeedRow,
   PlaceSeedRow,
   StateSeedRow,
-} from "@/seeders/geography/domain/geography-seed-row";
+} from "@/seeders/geography/geography-seed.validation";
 
 export type SeedWriteResult = {
   action: "created" | "updated";

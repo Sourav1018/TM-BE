@@ -1,5 +1,5 @@
 import path from "node:path";
-import { GeographySeedRepositoryPort } from "@/seeders/geography/application/geography-seed.repository.port";
+import { GeographySeedRepositoryPort } from "@/seeders/geography/geography-seed.repository.port";
 import {
   CITY_HEADERS,
   COUNTRY_HEADERS,
@@ -9,8 +9,8 @@ import {
   parseCountrySeedRow,
   parsePlaceSeedRow,
   parseStateSeedRow,
-} from "@/seeders/geography/domain/geography-seed-row";
-import { CsvReader } from "@/seeders/geography/infrastructure/csv/csv-reader";
+} from "@/seeders/geography/geography-seed.validation";
+import { CsvReader } from "@/seeders/geography/csv-reader";
 import { SeedError } from "@/seeders/shared/seed-error";
 
 type EntityCount = {

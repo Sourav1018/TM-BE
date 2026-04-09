@@ -1,12 +1,12 @@
 import { Prisma, PrismaClient } from "@generated/prisma/client";
 import { prisma } from "@/lib/prisma";
-import { GeographySeedRepositoryPort, SeedWriteResult } from "@/seeders/geography/application/geography-seed.repository.port";
+import { GeographySeedRepositoryPort, SeedWriteResult } from "@/seeders/geography/geography-seed.repository.port";
 import {
   CitySeedRow,
   CountrySeedRow,
   PlaceSeedRow,
   StateSeedRow,
-} from "@/seeders/geography/domain/geography-seed-row";
+} from "@/seeders/geography/geography-seed.validation";
 import { SeedError } from "@/seeders/shared/seed-error";
 
 type DbClient = PrismaClient | Prisma.TransactionClient;

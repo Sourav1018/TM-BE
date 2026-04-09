@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
-import { SeedGeographyFromCsvUseCase } from "@/seeders/geography/application/seed-geography-from-csv.usecase";
-import { PrismaGeographySeedRepository } from "@/seeders/geography/infrastructure/prisma/prisma-geography-seed.repository";
+import { PrismaGeographySeedRepository } from "@/seeders/geography/geography-seed.repository";
+import { SeedGeographyFromCsvUseCase } from "@/seeders/geography/geography-seed.usecase";
 import { SeedError } from "@/seeders/shared/seed-error";
 
 function logSummary(summary: Awaited<ReturnType<SeedGeographyFromCsvUseCase["execute"]>>) {
