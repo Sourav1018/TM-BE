@@ -36,4 +36,25 @@ export class PackagesController {
       return ApiResponse.error(res, appError);
     }
   };
+
+  updatePackage = async (req: Request, res: Response) => {
+    try {
+      const { id } = PackagesValidation.validateUpdatePackageParams(req.params);
+      const input = PackagesValidation.validateUpdatePackageInput(req.body);
+      const updatedPackage = await this.packagesFacade.updatePackage(id, input);
+
+      return ApiResponse.success(res, HTTP_STATUS.OK, updatedPackage);
+    } catch (error: unknown) {
+      const appError =
+        error instanceof AppError
+          ? error
+          : new AppError(ERROR_CODES.INTERNAL_SERVER_ERROR);
+
+      if (!(error instanceof AppError)) {
+        console.error("Unexpected error while updating package:", error);
+      }
+
+      return ApiResponse.error(res, appError);
+    }
+  };
 }

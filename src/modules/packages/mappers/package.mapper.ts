@@ -1,9 +1,9 @@
 import { packageDtoSchema } from "@/modules/packages/dto/package.dto";
 import type { PackageDto } from "@/modules/packages/dto/package.dto";
-import type { CreatedPackageRow } from "@/modules/packages/repositories/packages.repository";
+import type { PackageRow } from "@/modules/packages/repositories/packages.repository";
 
 export class PackageMapper {
-  toCreatePackageDto(row: CreatedPackageRow): PackageDto {
+  toPackageDto(row: PackageRow): PackageDto {
     return packageDtoSchema.parse({
       id: row.id,
       title: row.title,

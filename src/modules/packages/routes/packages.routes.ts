@@ -22,6 +22,7 @@ export class PackagesRoutes {
 
   private registerProtectedRoutes() {
     this.protectedRouter.post("/", this.packagesController.createPackage);
+    this.protectedRouter.patch("/:id", this.packagesController.updatePackage);
   }
 
   private mountRouteGroups() {
