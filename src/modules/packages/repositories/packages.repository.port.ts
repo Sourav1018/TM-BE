@@ -18,5 +18,6 @@ export interface PackagesRepositoryPort {
   findPlaceById(placeId: string): Promise<PackageRef | null>;
   findPackageById(packageId: string): Promise<PackageUpdateContext | null>;
   createPackage(input: CreatePackageInput): Promise<PackageDto>;
+  // TODO: Statues should not be undefine as its enum after create some value it should pass
   updatePackage(packageId: string, input: UpdatePackageInput): Promise<PackageDto>;
 }
