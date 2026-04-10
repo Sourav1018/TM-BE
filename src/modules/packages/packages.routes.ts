@@ -1,11 +1,42 @@
 import { Router } from "express";
+import type { RequestHandler } from "express";
 import type { PackagesController } from "@/modules/packages/packages.controller";
 
-export function createPackagesRouter(packagesController: PackagesController) {
-  const packagesRouter = Router();
+export class PackagesRoutes {
+  private readonly packagesRouter = Router();
+  private readonly publicRouter = Router();
+  private readonly protectedRouter = Router();
 
-  packagesRouter.get("/", packagesController.getPackagesModuleStatus);
-  packagesRouter.post("/", packagesController.createPackage);
+  constructor(
+    private readonly packagesController: PackagesController,
+    private readonly protectedMiddlewares: RequestHandler[] = [],
+  ) {
+    this.registerPublicRoutes();
+    this.registerProtectedRoutes();
+    this.mountRouteGroups();
+  }
 
-  return packagesRouter;
+  private registerPublicRoutes() {
+    this.publicRouter.get("/", this.packagesController.getPackagesModuleStatus);
+  }
+
+  private registerProtectedRoutes() {
+    this.protectedRouter.post("/", this.packagesController.createPackage);
+  }
+
+  private mountRouteGroups() {
+    this.packagesRouter.use("/", this.publicRouter);
+    this.packagesRouter.use("/", ...this.protectedMiddlewares, this.protectedRouter);
+  }
+
+  getRouter() {
+    return this.packagesRouter;
+  }
+}
+
+export function createPackagesRouter(
+  packagesController: PackagesController,
+  protectedMiddlewares: RequestHandler[] = [],
+) {
+  return new PackagesRoutes(packagesController, protectedMiddlewares).getRouter();
 }
