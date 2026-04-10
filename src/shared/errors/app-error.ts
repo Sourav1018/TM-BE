@@ -1,5 +1,5 @@
 import { ERROR_CATALOG } from "@/shared/errors/error-catalog";
-import { ErrorCode } from "@/shared/errors/error-codes";
+import type { ErrorCode } from "@/shared/errors/error-codes";
 
 type AppErrorOptions = {
   message?: string;

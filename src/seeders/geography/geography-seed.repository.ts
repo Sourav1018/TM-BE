@@ -1,7 +1,7 @@
-import { Prisma, PrismaClient } from "@generated/prisma/client";
+import type { Prisma, PrismaClient } from "@generated/prisma/client";
 import { prisma } from "@/lib/prisma";
-import { GeographySeedRepositoryPort, SeedWriteResult } from "@/seeders/geography/geography-seed.repository.port";
-import {
+import type { GeographySeedRepositoryPort, SeedWriteResult } from "@/seeders/geography/geography-seed.repository.port";
+import type {
   CitySeedRow,
   CountrySeedRow,
   PlaceSeedRow,

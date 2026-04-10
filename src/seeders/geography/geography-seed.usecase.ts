@@ -1,5 +1,5 @@
 import path from "node:path";
-import { GeographySeedRepositoryPort } from "@/seeders/geography/geography-seed.repository.port";
+import type { GeographySeedRepositoryPort } from "@/seeders/geography/geography-seed.repository.port";
 import {
   CITY_HEADERS,
   COUNTRY_HEADERS,

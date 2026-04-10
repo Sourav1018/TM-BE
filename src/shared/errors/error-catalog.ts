@@ -1,5 +1,7 @@
-import { ERROR_CODES, ErrorCode } from "@/shared/errors/error-codes";
-import { HTTP_STATUS, HttpStatusCode } from "@/shared/http/http-status";
+import { ERROR_CODES } from "@/shared/errors/error-codes";
+import type { ErrorCode } from "@/shared/errors/error-codes";
+import { HTTP_STATUS } from "@/shared/http/http-status";
+import type { HttpStatusCode } from "@/shared/http/http-status";
 
 export type ErrorCatalogEntry = {
   statusCode: HttpStatusCode;

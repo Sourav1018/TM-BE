@@ -1,5 +1,5 @@
 import type { CreatePackageInput } from "@/modules/packages/validation";
-import { PackagesRepositoryPort } from "@/modules/packages/packages.repository.port";
+import type { PackagesRepositoryPort } from "@/modules/packages/packages.repository.port";
 import { PackagePricingPolicy } from "@/modules/packages/domain/policies/package-pricing.policy";
 import { PackagePlacePolicy } from "@/modules/packages/domain/policies/package-place.policy";
 import { PackageSlugPolicy } from "@/modules/packages/domain/policies/package-slug.policy";

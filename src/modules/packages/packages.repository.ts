@@ -1,8 +1,8 @@
-import { Prisma } from "@/generated/prisma/client";
+import type { Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
-import { PackageDto } from "@/modules/packages/dto/package.dto";
+import type { PackageDto } from "@/modules/packages/dto/package.dto";
 import { packageMapper } from "@/modules/packages/mappers/package.mapper";
-import {
+import type {
   PackageRef,
   PackagesRepositoryPort,
 } from "@/modules/packages/packages.repository.port";

@@ -1,4 +1,4 @@
-import { Application } from "express";
+import type { Application } from "express";
 import { healthRouter } from "@/modules/health";
 import { geographyRouter } from "@/modules/geography";
 import { packagesRouter } from "@/modules/packages";

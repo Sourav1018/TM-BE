@@ -1,4 +1,4 @@
-import { PackageDto } from "@/modules/packages/dto/package.dto";
+import type { PackageDto } from "@/modules/packages/dto/package.dto";
 import type { CreatePackageInput } from "@/modules/packages/validation";
 
 export type PackageRef = {
