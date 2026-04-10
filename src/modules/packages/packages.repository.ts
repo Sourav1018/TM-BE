@@ -6,7 +6,7 @@ import {
   PackageRef,
   PackagesRepositoryPort,
 } from "@/modules/packages/packages.repository.port";
-import { CreatePackageInput } from "@/modules/packages/packages.validation";
+import type { CreatePackageInput } from "@/modules/packages/validation";
 
 export const createdPackageSelect = {
   id: true,

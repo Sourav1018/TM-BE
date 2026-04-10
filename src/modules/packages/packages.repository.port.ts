@@ -1,5 +1,5 @@
 import { PackageDto } from "@/modules/packages/dto/package.dto";
-import { CreatePackageInput } from "@/modules/packages/packages.validation";
+import type { CreatePackageInput } from "@/modules/packages/validation";
 
 export type PackageRef = {
   id: string;

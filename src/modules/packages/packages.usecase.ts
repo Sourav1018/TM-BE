@@ -1,6 +1,6 @@
 import { AppError } from "@/shared/errors/app-error";
 import { ERROR_CODES } from "@/shared/errors/error-codes";
-import { CreatePackageInput } from "@/modules/packages/packages.validation";
+import type { CreatePackageInput } from "@/modules/packages/validation";
 import { PackagesRepositoryPort } from "@/modules/packages/packages.repository.port";
 
 export class PackagesUseCase {
