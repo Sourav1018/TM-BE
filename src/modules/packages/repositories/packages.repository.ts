@@ -5,7 +5,7 @@ import { packageMapper } from "@/modules/packages/mappers/package.mapper";
 import type {
   PackageRef,
   PackagesRepositoryPort,
-} from "@/modules/packages/packages.repository.port";
+} from "@/modules/packages/repositories/packages.repository.port";
 import type { CreatePackageInput } from "@/modules/packages/validation";
 
 export const createdPackageSelect = {

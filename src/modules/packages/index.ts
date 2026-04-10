@@ -1,7 +1,7 @@
-import { PackagesController } from "@/modules/packages/packages.controller";
-import { PackagesFacade } from "@/modules/packages/packages.facade";
-import { PrismaPackagesRepository } from "@/modules/packages/packages.repository";
-import { PackagesRoutes } from "@/modules/packages/packages.routes";
+import { PackagesController } from "@/modules/packages/controllers/packages.controller";
+import { PackagesFacade } from "@/modules/packages/application/packages.facade";
+import { PrismaPackagesRepository } from "@/modules/packages/repositories/packages.repository";
+import { PackagesRoutes } from "@/modules/packages/routes/packages.routes";
 import { CreatePackageUseCase } from "@/modules/packages/usecases/create-package.usecase";
 
 const packagesRepository = new PrismaPackagesRepository();

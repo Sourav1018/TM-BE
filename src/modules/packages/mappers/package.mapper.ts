@@ -1,6 +1,6 @@
 import { packageDtoSchema } from "@/modules/packages/dto/package.dto";
 import type { PackageDto } from "@/modules/packages/dto/package.dto";
-import type { CreatedPackageRow } from "@/modules/packages/packages.repository";
+import type { CreatedPackageRow } from "@/modules/packages/repositories/packages.repository";
 
 export class PackageMapper {
   toCreatePackageDto(row: CreatedPackageRow): PackageDto {

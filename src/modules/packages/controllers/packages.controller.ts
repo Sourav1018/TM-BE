@@ -3,8 +3,8 @@ import { AppError } from "@/shared/errors/app-error";
 import { ERROR_CODES } from "@/shared/errors/error-codes";
 import { ApiResponse } from "@/shared/http/api-response";
 import { HTTP_STATUS } from "@/shared/http/http-status";
-import { PackagesFacade } from "@/modules/packages/packages.facade";
-import { PackagesValidation } from "@/modules/packages/packages.validation";
+import { PackagesFacade } from "@/modules/packages/application/packages.facade";
+import { PackagesValidation } from "@/modules/packages/validation/packages.validation";
 
 export class PackagesController {
   constructor(private readonly packagesFacade: PackagesFacade) {}

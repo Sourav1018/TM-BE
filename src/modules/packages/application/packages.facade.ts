@@ -1,5 +1,5 @@
 import type { CreatePackageInput } from "@/modules/packages/validation";
-import { CreatePackageUseCase } from "@/modules/packages/usecases/create-package.usecase";
+import type { CreatePackageUseCase } from "@/modules/packages/usecases/create-package.usecase";
 
 export class PackagesFacade {
   constructor(private readonly createPackageUseCase: CreatePackageUseCase) {}

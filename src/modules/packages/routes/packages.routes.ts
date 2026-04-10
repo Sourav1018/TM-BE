@@ -1,6 +1,6 @@
 import { Router } from "express";
 import type { RequestHandler } from "express";
-import type { PackagesController } from "@/modules/packages/packages.controller";
+import type { PackagesController } from "@/modules/packages/controllers/packages.controller";
 
 export class PackagesRoutes {
   private readonly packagesRouter = Router();

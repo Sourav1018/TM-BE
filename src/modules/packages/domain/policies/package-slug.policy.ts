@@ -1,6 +1,6 @@
 import { AppError } from "@/shared/errors/app-error";
 import { ERROR_CODES } from "@/shared/errors/error-codes";
-import type { PackagesRepositoryPort } from "@/modules/packages/packages.repository.port";
+import type { PackagesRepositoryPort } from "@/modules/packages/repositories/packages.repository.port";
 
 export class PackageSlugPolicy {
   static async assertAvailable(packagesRepository: PackagesRepositoryPort, slug: string) {
