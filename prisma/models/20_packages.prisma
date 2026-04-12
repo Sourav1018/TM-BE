@@ -6,22 +6,34 @@ model Package {
   comparePrice   Decimal       @map("compare_price") @db.Decimal(10, 2)
   durationDays   Int           @map("duration_days")
   durationNights Int           @map("duration_nights")
-  placeId        String        @map("place_id") @db.Uuid
   slug           String        @unique
   status         PackageStatus @default(draft)
   createdAt      DateTime      @default(now()) @map("created_at")
   updatedAt      DateTime      @updatedAt @map("updated_at")
   deletedAt      DateTime?     @map("deleted_at")
 
-  place             Place              @relation(fields: [placeId], references: [id])
+  packagePlaces     PackagePlace[]
   packageMedia      PackageMedia[]
   itineraries       PackageItinerary[]
   packageInclusions PackageInclusion[]
   packageExclusions PackageExclusion[]
   routeMap          RouteMap?
 
-  @@index([placeId])
   @@map("packages")
+}
+
+model PackagePlace {
+  id        String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  packageId String @map("package_id") @db.Uuid
+  placeId   String @map("place_id") @db.Uuid
+
+  package Package @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  place   Place   @relation(fields: [placeId], references: [id], onDelete: Cascade)
+
+  @@unique([packageId, placeId])
+  @@index([packageId])
+  @@index([placeId])
+  @@map("packages_places")
 }
 
 model PackageMedia {

@@ -8,14 +8,13 @@ export type PackageRef = {
 export type PackageUpdateContext = {
   id: string;
   slug: string;
-  placeId: string;
   price: number;
   comparePrice: number;
 };
 
 export interface PackagesRepositoryPort {
   findPackageBySlug(slug: string): Promise<PackageRef | null>;
-  findPlaceById(placeId: string): Promise<PackageRef | null>;
+  findPlacesByIds(placeIds: string[]): Promise<PackageRef[]>;
   findPackageById(packageId: string): Promise<PackageUpdateContext | null>;
   createPackage(input: CreatePackageInput): Promise<PackageDto>;
   // TODO: Statues should not be undefine as its enum after create some value it should pass

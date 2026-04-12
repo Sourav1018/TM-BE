@@ -9,7 +9,7 @@ export class CreatePackageUseCase {
 
   async execute(input: CreatePackageInput) {
     PackagePricingPolicy.validateCreate(input.price, input.comparePrice);
-    await PackagePlacePolicy.assertExists(this.packagesRepository, input.placeId);
+    await PackagePlacePolicy.assertAllExist(this.packagesRepository, input.placeIds);
     await PackageSlugPolicy.assertAvailable(this.packagesRepository, input.slug);
 
     return this.packagesRepository.createPackage(input);

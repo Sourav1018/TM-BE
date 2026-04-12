@@ -19,7 +19,7 @@ export const ERROR_CATALOG: Record<ErrorCode, ErrorCatalogEntry> = {
   },
   [ERROR_CODES.PLACE_NOT_FOUND]: {
     statusCode: HTTP_STATUS.NOT_FOUND,
-    defaultMessage: "placeId does not exist.",
+    defaultMessage: "one or more placeIds do not exist.",
   },
   [ERROR_CODES.PACKAGE_NOT_FOUND]: {
     statusCode: HTTP_STATUS.NOT_FOUND,

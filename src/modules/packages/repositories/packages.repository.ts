@@ -17,7 +17,11 @@ export const packageSelect = {
   comparePrice: true,
   durationDays: true,
   durationNights: true,
-  placeId: true,
+  packagePlaces: {
+    select: {
+      placeId: true,
+    },
+  },
   slug: true,
   status: true,
   createdAt: true,
@@ -29,6 +33,10 @@ export type PackageRow = Prisma.PackageGetPayload<{
 }>;
 
 export class PrismaPackagesRepository implements PackagesRepositoryPort {
+  private getUniquePlaceIds(placeIds: string[]): string[] {
+    return [...new Set(placeIds)];
+  }
+
   async findPackageBySlug(slug: string): Promise<PackageRef | null> {
     const db = prisma;
 
@@ -38,11 +46,16 @@ export class PrismaPackagesRepository implements PackagesRepositoryPort {
     });
   }
 
-  async findPlaceById(placeId: string): Promise<PackageRef | null> {
+  async findPlacesByIds(placeIds: string[]): Promise<PackageRef[]> {
     const db = prisma;
+    const uniquePlaceIds = this.getUniquePlaceIds(placeIds);
 
-    return db.place.findUnique({
-      where: { id: placeId },
+    if (uniquePlaceIds.length === 0) {
+      return [];
+    }
+
+    return db.place.findMany({
+      where: { id: { in: uniquePlaceIds } },
       select: { id: true },
     });
   }
@@ -54,7 +67,6 @@ export class PrismaPackagesRepository implements PackagesRepositoryPort {
       select: {
         id: true,
         slug: true,
-        placeId: true,
         price: true,
         comparePrice: true,
       },
@@ -67,48 +79,81 @@ export class PrismaPackagesRepository implements PackagesRepositoryPort {
     return {
       id: existingPackage.id,
       slug: existingPackage.slug,
-      placeId: existingPackage.placeId,
       price: Number(existingPackage.price),
       comparePrice: Number(existingPackage.comparePrice),
     };
   }
 
   async createPackageRecord(input: CreatePackageInput) {
-    const db = prisma;
+    return prisma.$transaction(async (tx) => {
+      const uniquePlaceIds = this.getUniquePlaceIds(input.placeIds);
+      const createdPackage = await tx.package.create({
+        data: {
+          title: input.title,
+          description: input.description,
+          price: input.price,
+          comparePrice: input.comparePrice,
+          durationDays: input.durationDays,
+          durationNights: input.durationNights,
+          slug: input.slug,
+          status: input.status,
+        },
+        select: { id: true },
+      });
 
-    return db.package.create({
-      data: {
-        title: input.title,
-        description: input.description,
-        price: input.price,
-        comparePrice: input.comparePrice,
-        durationDays: input.durationDays,
-        durationNights: input.durationNights,
-        placeId: input.placeId,
-        slug: input.slug,
-        status: input.status,
-      },
-      select: packageSelect,
+      if (uniquePlaceIds.length > 0) {
+        await tx.packagePlace.createMany({
+          data: uniquePlaceIds.map((placeId) => ({
+            packageId: createdPackage.id,
+            placeId,
+          })),
+        });
+      }
+
+      return tx.package.findUniqueOrThrow({
+        where: { id: createdPackage.id },
+        select: packageSelect,
+      });
     });
   }
 
   async updatePackageRecord(packageId: string, input: UpdatePackageInput) {
-    const db = prisma;
+    return prisma.$transaction(async (tx) => {
+      await tx.package.update({
+        where: { id: packageId },
+        data: {
+          title: input.title,
+          description: input.description,
+          price: input.price,
+          comparePrice: input.comparePrice,
+          durationDays: input.durationDays,
+          durationNights: input.durationNights,
+          slug: input.slug,
+          status: input.status,
+        },
+        select: { id: true },
+      });
 
-    return db.package.update({
-      where: { id: packageId },
-      data: {
-        title: input.title,
-        description: input.description,
-        price: input.price,
-        comparePrice: input.comparePrice,
-        durationDays: input.durationDays,
-        durationNights: input.durationNights,
-        placeId: input.placeId,
-        slug: input.slug,
-        status: input.status,
-      },
-      select: packageSelect,
+      if (input.placeIds !== undefined) {
+        const uniquePlaceIds = this.getUniquePlaceIds(input.placeIds);
+        await tx.packagePlace.deleteMany({
+          where: { packageId },
+        });
+
+        if (uniquePlaceIds.length > 0) {
+          await tx.packagePlace.createMany({
+            data: uniquePlaceIds.map((placeId) => ({
+              packageId,
+              placeId,
+            })),
+          });
+        }
+      }
+
+      return tx.package.findUniqueOrThrow({
+        where: { id: packageId },
+        select: packageSelect,
+      });
     });
   }
 

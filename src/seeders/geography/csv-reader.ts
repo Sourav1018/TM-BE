@@ -30,6 +30,19 @@ function validateHeaders(
 export class CsvReader {
   constructor(private readonly baseDirectory: string) {}
 
+  readRowsIfExists<T>(
+    fileName: string,
+    expectedHeaders: readonly string[],
+    parseRow: (record: Record<string, string>, rowNumber: number) => T,
+  ): ParsedSeedRow<T>[] {
+    const filePath = path.join(this.baseDirectory, fileName);
+    if (!fs.existsSync(filePath)) {
+      return [];
+    }
+
+    return this.readRows(fileName, expectedHeaders, parseRow);
+  }
+
   readRows<T>(
     fileName: string,
     expectedHeaders: readonly string[],

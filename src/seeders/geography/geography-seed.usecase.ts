@@ -60,7 +60,7 @@ export class SeedGeographyFromCsvUseCase {
       CITY_HEADERS,
       parseCitySeedRow,
     );
-    const places = this.csvReader.readRows(
+    const places = this.csvReader.readRowsIfExists(
       "places.csv",
       PLACE_HEADERS,
       parsePlaceSeedRow,

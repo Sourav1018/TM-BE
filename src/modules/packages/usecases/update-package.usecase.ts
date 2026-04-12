@@ -19,8 +19,8 @@ export class UpdatePackageUseCase {
     const nextComparePrice = input.comparePrice ?? existingPackage.comparePrice;
     PackagePricingPolicy.validateCreate(nextPrice, nextComparePrice);
 
-    if (input.placeId && input.placeId !== existingPackage.placeId) {
-      await PackagePlacePolicy.assertExists(this.packagesRepository, input.placeId);
+    if (input.placeIds !== undefined) {
+      await PackagePlacePolicy.assertAllExist(this.packagesRepository, input.placeIds);
     }
 
     if (input.slug && input.slug !== existingPackage.slug) {

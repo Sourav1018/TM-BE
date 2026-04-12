@@ -10,7 +10,7 @@ export class CreatePackageValidation {
     comparePrice: z.coerce.number().positive(),
     durationDays: z.coerce.number().int().positive(),
     durationNights: z.coerce.number().int().positive(),
-    placeId: z.uuid(),
+    placeIds: z.array(z.uuid()),
     slug: z.string().trim().min(1),
     status: z.enum(["draft", "published", "archived"]).default("draft"),
   });
@@ -24,7 +24,10 @@ export class CreatePackageValidation {
       });
     }
 
-    return parsed.data;
+    return {
+      ...parsed.data,
+      placeIds: [...new Set(parsed.data.placeIds)],
+    };
   }
 }
 

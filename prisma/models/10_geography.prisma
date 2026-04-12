@@ -49,8 +49,8 @@ model Place {
   slug          String
   createdAt     DateTime @default(now()) @map("created_at")
 
-  city      City      @relation(fields: [cityId], references: [id])
-  packages  Package[]
+  city          City           @relation(fields: [cityId], references: [id])
+  packagePlaces PackagePlace[]
 
   @@index([cityId])
   @@map("places")

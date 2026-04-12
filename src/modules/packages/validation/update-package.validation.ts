@@ -10,7 +10,7 @@ const updatePackagePayloadSchema = z
     comparePrice: z.coerce.number().positive().optional(),
     durationDays: z.coerce.number().int().positive().optional(),
     durationNights: z.coerce.number().int().positive().optional(),
-    placeId: z.uuid().optional(),
+    placeIds: z.array(z.uuid()).optional(),
     slug: z.string().trim().min(1).optional(),
     status: z.enum(["draft", "published", "archived"]).optional(),
   })
@@ -33,7 +33,12 @@ export class UpdatePackageValidation {
       });
     }
 
-    return parsed.data;
+    return {
+      ...parsed.data,
+      placeIds: parsed.data.placeIds
+        ? [...new Set(parsed.data.placeIds)]
+        : undefined,
+    };
   }
 
   static parseParams(params: unknown): UpdatePackageParams {

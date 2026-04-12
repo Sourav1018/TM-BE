@@ -12,7 +12,7 @@ export class PackageMapper {
       comparePrice: row.comparePrice.toString(),
       durationDays: row.durationDays,
       durationNights: row.durationNights,
-      placeId: row.placeId,
+      placeIds: row.packagePlaces.map((packagePlace) => packagePlace.placeId),
       slug: row.slug,
       status: row.status.toString(),
       createdAt: row.createdAt.toISOString(),
