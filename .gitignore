@@ -5,4 +5,4 @@ generated
 .codex
 
 # Ignore seed CSV files
-src/data/seeders/*.csv
+src/data/seeders/*
