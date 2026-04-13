@@ -33,7 +33,7 @@ model PackagePlace {
   @@unique([packageId, placeId])
   @@index([packageId])
   @@index([placeId])
-  @@map("packages_places")
+  @@map("package_places")
 }
 
 model PackageMedia {
