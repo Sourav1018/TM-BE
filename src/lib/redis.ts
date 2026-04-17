@@ -1,5 +1,5 @@
 import { createClient } from "redis";
-import { env } from "env";
+import { env } from "@/lib/env";
 
 type AppRedisClient = ReturnType<typeof createClient>;
 
