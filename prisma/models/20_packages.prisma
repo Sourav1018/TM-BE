@@ -1,0 +1,78 @@
+model Package {
+  id             String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title          String
+  description    String
+  price          Decimal       @db.Decimal(10, 2)
+  comparePrice   Decimal       @map("compare_price") @db.Decimal(10, 2)
+  durationDays   Int           @map("duration_days")
+  durationNights Int           @map("duration_nights")
+  slug           String        @unique
+  status         PackageStatus @default(draft)
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+  deletedAt      DateTime?     @map("deleted_at")
+
+  packagePlaces     PackagePlace[]
+  packageMedia      PackageMedia[]
+  itineraries       PackageItinerary[]
+  packageInclusions PackageInclusion[]
+  packageExclusions PackageExclusion[]
+  routeMap          RouteMap?
+
+  @@map("packages")
+}
+
+model PackagePlace {
+  id        String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  packageId String @map("package_id") @db.Uuid
+  placeId   String @map("place_id") @db.Uuid
+
+  package Package @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  place   Place   @relation(fields: [placeId], references: [id], onDelete: Cascade)
+
+  @@unique([packageId, placeId])
+  @@index([packageId])
+  @@index([placeId])
+  @@map("package_places")
+}
+
+model PackageMedia {
+  id        String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  packageId String  @map("package_id") @db.Uuid
+  mediaId   String  @map("media_id") @db.Uuid
+  isCover   Boolean @default(false) @map("is_cover")
+  sortOrder Int     @default(0) @map("sort_order")
+
+  package Package     @relation(fields: [packageId], references: [id])
+  media   MediaMaster @relation(fields: [mediaId], references: [id])
+
+  @@unique([packageId, mediaId])
+  @@index([packageId])
+  @@index([mediaId])
+  @@map("package_media")
+}
+
+model PackageItinerary {
+  id          String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  packageId   String @map("package_id") @db.Uuid
+  dayNumber   Int    @map("day_number")
+  title       String
+  description String
+
+  package Package @relation(fields: [packageId], references: [id])
+
+  @@unique([packageId, dayNumber])
+  @@index([packageId])
+  @@map("package_itinerary")
+}
+
+model RouteMap {
+  id                  String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  packageId           String  @unique @map("package_id") @db.Uuid
+  isRouteMapAvailable Boolean @default(false) @map("is_route_map_available")
+  locationMapUrl      String? @map("location_map_url")
+
+  package Package @relation(fields: [packageId], references: [id])
+
+  @@map("route_map")
+}

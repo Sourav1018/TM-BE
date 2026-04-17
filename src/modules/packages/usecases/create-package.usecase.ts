@@ -1,0 +1,17 @@
+import type { CreatePackageInput } from "@/modules/packages/validation";
+import type { PackagesRepositoryPort } from "@/modules/packages/repositories/packages.repository.port";
+import { PackagePricingPolicy } from "@/modules/packages/domain/policies/package-pricing.policy";
+import { PackagePlacePolicy } from "@/modules/packages/domain/policies/package-place.policy";
+import { PackageSlugPolicy } from "@/modules/packages/domain/policies/package-slug.policy";
+
+export class CreatePackageUseCase {
+  constructor(private readonly packagesRepository: PackagesRepositoryPort) {}
+
+  async execute(input: CreatePackageInput) {
+    PackagePricingPolicy.validateCreate(input.price, input.comparePrice);
+    await PackagePlacePolicy.assertAllExist(this.packagesRepository, input.placeIds);
+    await PackageSlugPolicy.assertAvailable(this.packagesRepository, input.slug);
+
+    return this.packagesRepository.createPackage(input);
+  }
+}

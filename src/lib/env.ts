@@ -12,5 +12,5 @@ export const env = {
   NODE_ENV: required("NODE_ENV", "development"),
   PORT: parseInt(required("PORT", "4000"), 10),
   DATABASE_URL: required("DATABASE_URL"),
-  DIRECT_URL: required("DIRECT_URL"),
+  REDIS_URL: required("REDIS_URL"),
 };
