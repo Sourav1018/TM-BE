@@ -1,4 +1,4 @@
-import { env } from "env";
+import { env } from "@/lib/env";
 import { createApp } from "@/app";
 import { prisma } from "@/lib/prisma";
 import { redis } from "@/lib/redis";
