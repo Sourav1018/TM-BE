@@ -1,9 +1,7 @@
 {
   "version": 2,
   "functions": {
-    "dist/src/index.js": {
-      "runtime": "nodejs24.x"
-    }
+    "dist/src/index.js": {}
   },
   "routes": [
     {
