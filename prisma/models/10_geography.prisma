@@ -4,6 +4,7 @@ model Country {
   code      String   @db.Char(2)
   slug      String   @unique
   createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   states State[]
 
@@ -16,6 +17,7 @@ model State {
   countryId String   @map("country_id") @db.Uuid
   slug      String
   createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   country Country @relation(fields: [countryId], references: [id])
   cities  City[]
@@ -30,6 +32,7 @@ model City {
   stateId   String   @map("state_id") @db.Uuid
   slug      String
   createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   state  State   @relation(fields: [stateId], references: [id])
   places Place[]
@@ -39,15 +42,17 @@ model City {
 }
 
 model Place {
-  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name          String
-  cityId        String   @map("city_id") @db.Uuid
-  latitude      Float
-  longitude     Float
-  googlePlaceId String?  @map("google_place_id")
-  mapUrl        String?  @map("map_url")
-  slug          String
-  createdAt     DateTime @default(now()) @map("created_at")
+  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name            String
+  cityId          String   @map("city_id") @db.Uuid
+  latitude        Float
+  longitude       Float
+  googlePlaceId   String?  @map("google_place_id")
+  mapUrl          String?  @map("map_url")
+  googlePublicUrl String?  @map("google_public_url")
+  slug            String
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
 
   city          City           @relation(fields: [cityId], references: [id])
   packagePlaces PackagePlace[]

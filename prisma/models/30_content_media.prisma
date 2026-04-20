@@ -3,6 +3,7 @@ model InclusionExclusionCategory {
   name      String
   slug      String   @unique
   createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   inclusions Inclusion[]
   exclusions Exclusion[]
@@ -17,6 +18,7 @@ model Inclusion {
   slug       String   @unique
   categoryId String   @map("category_id") @db.Uuid
   createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
 
   category          InclusionExclusionCategory @relation(fields: [categoryId], references: [id])
   packageInclusions PackageInclusion[]
@@ -32,6 +34,7 @@ model Exclusion {
   slug       String   @unique
   categoryId String   @map("category_id") @db.Uuid
   createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
 
   category          InclusionExclusionCategory @relation(fields: [categoryId], references: [id])
   packageExclusions PackageExclusion[]
@@ -97,6 +100,7 @@ model MediaVariant {
   sizeBytes  BigInt?  @map("size_bytes")
   metadata   Json?
   createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
 
   media MediaMaster @relation(fields: [mediaId], references: [id])
 
