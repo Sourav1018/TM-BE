@@ -9,7 +9,10 @@ export class CreatePlaceValidation {
     latitude: z.coerce.number(),
     longitude: z.coerce.number(),
     googlePlaceId: z.string().trim().min(1).optional().nullable(),
-    mapUrl: z.string().trim().min(1).optional().nullable(),
+    mapsUrl: z.url({
+      protocol: /^https$/,
+      hostname: /^maps\.app\.goo\.gl$/,
+    }).trim().nullable().optional(),
     slug: z.string().trim().min(1),
   });
 
