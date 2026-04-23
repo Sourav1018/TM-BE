@@ -8,6 +8,7 @@ export const placeDtoSchema = z.object({
   longitude: z.number(),
   googlePlaceId: z.string().nullable(),
   mapUrl: z.string().nullable(),
+  googlePublicUrl: z.string().nullable(),
   slug: z.string(),
   createdAt: z.iso.datetime(),
 });

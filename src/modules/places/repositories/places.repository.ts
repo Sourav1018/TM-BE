@@ -3,10 +3,11 @@ import { prisma } from "@/lib/prisma";
 import { placeMapper } from "@/modules/places/mappers/place.mapper";
 import type { PlacesRepositoryPort } from "@/modules/places/repositories/places.repository.port";
 import type {
+  CreatePlaceData,
   PlaceRef,
   PlaceUpdateContext,
+  UpdatePlaceData,
 } from "@/modules/places/repositories/places.repository.port";
-import type { CreatePlaceInput, UpdatePlaceInput } from "@/modules/places/validation";
 
 export const placeSelect = {
   id: true,
@@ -16,6 +17,7 @@ export const placeSelect = {
   longitude: true,
   googlePlaceId: true,
   mapUrl: true,
+  googlePublicUrl: true,
   slug: true,
   createdAt: true,
 } as const;
@@ -64,7 +66,7 @@ export class PrismaPlacesRepository implements PlacesRepositoryPort {
     });
   }
 
-  async createPlace(input: CreatePlaceInput) {
+  async createPlace(input: CreatePlaceData) {
     const createdPlace = await prisma.place.create({
       data: {
         name: input.name,
@@ -72,7 +74,8 @@ export class PrismaPlacesRepository implements PlacesRepositoryPort {
         latitude: input.latitude,
         longitude: input.longitude,
         googlePlaceId: input.googlePlaceId,
-        mapUrl: input.mapUrl,
+        mapUrl: input.mapsUrl,
+        googlePublicUrl: input.googlePublicUrl,
         slug: input.slug,
       },
       select: placeSelect,
@@ -81,7 +84,7 @@ export class PrismaPlacesRepository implements PlacesRepositoryPort {
     return placeMapper.toPlaceDto(createdPlace);
   }
 
-  async updatePlace(placeId: string, input: UpdatePlaceInput) {
+  async updatePlace(placeId: string, input: UpdatePlaceData) {
     const updatedPlace = await prisma.place.update({
       where: { id: placeId },
       data: {
@@ -91,6 +94,7 @@ export class PrismaPlacesRepository implements PlacesRepositoryPort {
         longitude: input.longitude,
         googlePlaceId: input.googlePlaceId,
         mapUrl: input.mapUrl,
+        googlePublicUrl: input.googlePublicUrl,
         slug: input.slug,
       },
       select: placeSelect,

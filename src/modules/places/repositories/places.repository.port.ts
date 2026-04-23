@@ -13,10 +13,18 @@ export type PlaceUpdateContext = {
   longitude: number;
 };
 
+export type CreatePlaceData = CreatePlaceInput & {
+  googlePublicUrl: string;
+};
+
+export type UpdatePlaceData = UpdatePlaceInput & {
+  googlePublicUrl?: string | null;
+};
+
 export interface PlacesRepositoryPort {
   findPlaceBySlug(slug: string): Promise<PlaceRef | null>;
   findPlaceById(placeId: string): Promise<PlaceUpdateContext | null>;
   findCityById(cityId: string): Promise<PlaceRef | null>;
-  createPlace(input: CreatePlaceInput): Promise<PlaceDto>;
-  updatePlace(placeId: string, input: UpdatePlaceInput): Promise<PlaceDto>;
+  createPlace(input: CreatePlaceData): Promise<PlaceDto>;
+  updatePlace(placeId: string, input: UpdatePlaceData): Promise<PlaceDto>;
 }

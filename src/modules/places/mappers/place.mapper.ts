@@ -12,6 +12,7 @@ export class PlaceMapper {
       longitude: row.longitude,
       googlePlaceId: row.googlePlaceId,
       mapUrl: row.mapUrl,
+      googlePublicUrl: row.googlePublicUrl,
       slug: row.slug,
       createdAt: row.createdAt.toISOString(),
     });
