@@ -1,8 +1,6 @@
 import { AppError } from "@/shared/errors/app-error";
 import { ERROR_CODES } from "@/shared/errors/error-codes";
 import type { PackagesRepositoryPort } from "@/modules/packages/repositories/packages.repository.port";
-
-// This file is outdated as we are no longer used this here it will be move to prices module
 export class PackagePlacePolicy {
   static async assertAllExist(packagesRepository: PackagesRepositoryPort, placeIds: string[]) {
     const uniquePlaceIds = [...new Set(placeIds)];
