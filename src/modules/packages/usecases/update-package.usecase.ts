@@ -2,7 +2,6 @@ import { AppError } from "@/shared/errors/app-error";
 import { ERROR_CODES } from "@/shared/errors/error-codes";
 import type { PackagesRepositoryPort } from "@/modules/packages/repositories/packages.repository.port";
 import type { UpdatePackageInput } from "@/modules/packages/validation";
-import { PackagePricingPolicy } from "@/modules/packages/domain/policies/package-pricing.policy";
 import { PackagePlacePolicy } from "@/modules/packages/domain/policies/package-place.policy";
 
 export class UpdatePackageUseCase {
@@ -14,10 +13,6 @@ export class UpdatePackageUseCase {
     if (!existingPackage) {
       throw new AppError(ERROR_CODES.PACKAGE_NOT_FOUND);
     }
-
-    const nextPrice = input.price ?? existingPackage.price;
-    const nextComparePrice = input.comparePrice ?? existingPackage.comparePrice;
-    PackagePricingPolicy.validateCreate(nextPrice, nextComparePrice);
 
     if (input.placeIds !== undefined) {
       await PackagePlacePolicy.assertAllExist(this.packagesRepository, input.placeIds);

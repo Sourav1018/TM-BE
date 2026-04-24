@@ -4,8 +4,6 @@ export const packageDtoSchema = z.object({
   id: z.uuid(),
   title: z.string(),
   description: z.string(),
-  price: z.string(),
-  comparePrice: z.string(),
   durationDays: z.number().int().positive(),
   durationNights: z.number().int().positive(),
   placeIds: z.array(z.uuid()),

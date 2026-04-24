@@ -8,8 +8,6 @@ export type PackageRef = {
 export type PackageUpdateContext = {
   id: string;
   slug: string;
-  price: number;
-  comparePrice: number;
 };
 
 export interface PackagesRepositoryPort {

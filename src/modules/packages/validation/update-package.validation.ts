@@ -6,8 +6,6 @@ const updatePackagePayloadSchema = z
   .object({
     title: z.string().trim().min(1).optional(),
     description: z.string().trim().min(1).optional(),
-    price: z.coerce.number().positive().optional(),
-    comparePrice: z.coerce.number().positive().optional(),
     durationDays: z.coerce.number().int().positive().optional(),
     durationNights: z.coerce.number().int().positive().optional(),
     placeIds: z.array(z.uuid()).optional(),

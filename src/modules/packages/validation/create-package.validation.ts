@@ -6,8 +6,6 @@ export class CreatePackageValidation {
   static readonly schema = z.object({
     title: z.string().trim().min(1),
     description: z.string().trim().min(1),
-    price: z.coerce.number().positive(),
-    comparePrice: z.coerce.number().positive(),
     durationDays: z.coerce.number().int().positive(),
     durationNights: z.coerce.number().int().positive(),
     placeIds: z.array(z.uuid()),
