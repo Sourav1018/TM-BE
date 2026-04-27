@@ -12,6 +12,10 @@ export class ApiResponse {
     return res.status(statusCode).json({ data });
   }
 
+  static noContent(res: Response) {
+    return res.status(204).send();
+  }
+
   static error(res: Response, error: ErrorResponseShape) {
     return res.status(error.statusCode).json({
       error: {

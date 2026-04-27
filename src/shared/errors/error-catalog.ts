@@ -29,6 +29,10 @@ export const ERROR_CATALOG: Record<ErrorCode, ErrorCatalogEntry> = {
     statusCode: HTTP_STATUS.NOT_FOUND,
     defaultMessage: "package not found.",
   },
+  [ERROR_CODES.ITINERARY_NOT_FOUND]: {
+    statusCode: HTTP_STATUS.NOT_FOUND,
+    defaultMessage: "itinerary not found.",
+  },
   [ERROR_CODES.SLUG_ALREADY_EXISTS]: {
     statusCode: HTTP_STATUS.CONFLICT,
     defaultMessage: "slug already exists.",
