@@ -13,8 +13,6 @@ export const packageSelect = {
   id: true,
   title: true,
   description: true,
-  price: true,
-  comparePrice: true,
   durationDays: true,
   durationNights: true,
   packagePlaces: {
@@ -67,8 +65,6 @@ export class PrismaPackagesRepository implements PackagesRepositoryPort {
       select: {
         id: true,
         slug: true,
-        price: true,
-        comparePrice: true,
       },
     });
 
@@ -79,8 +75,6 @@ export class PrismaPackagesRepository implements PackagesRepositoryPort {
     return {
       id: existingPackage.id,
       slug: existingPackage.slug,
-      price: Number(existingPackage.price),
-      comparePrice: Number(existingPackage.comparePrice),
     };
   }
 
@@ -91,8 +85,6 @@ export class PrismaPackagesRepository implements PackagesRepositoryPort {
         data: {
           title: input.title,
           description: input.description,
-          price: input.price,
-          comparePrice: input.comparePrice,
           durationDays: input.durationDays,
           durationNights: input.durationNights,
           slug: input.slug,
@@ -124,8 +116,6 @@ export class PrismaPackagesRepository implements PackagesRepositoryPort {
         data: {
           title: input.title,
           description: input.description,
-          price: input.price,
-          comparePrice: input.comparePrice,
           durationDays: input.durationDays,
           durationNights: input.durationNights,
           slug: input.slug,

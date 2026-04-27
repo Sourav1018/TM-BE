@@ -2,8 +2,7 @@ model Package {
   id             String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   title          String
   description    String
-  price          Decimal       @db.Decimal(10, 2)
-  comparePrice   Decimal       @map("compare_price") @db.Decimal(10, 2)
+
   durationDays   Int           @map("duration_days")
   durationNights Int           @map("duration_nights")
   slug           String        @unique

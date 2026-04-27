@@ -8,8 +8,6 @@ export class PackageMapper {
       id: row.id,
       title: row.title,
       description: row.description,
-      price: row.price.toString(),
-      comparePrice: row.comparePrice.toString(),
       durationDays: row.durationDays,
       durationNights: row.durationNights,
       placeIds: row.packagePlaces.map((packagePlace) => packagePlace.placeId),
