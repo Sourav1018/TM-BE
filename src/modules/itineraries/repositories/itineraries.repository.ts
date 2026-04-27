@@ -55,4 +55,28 @@ export class PrismaItinerariesRepository implements ItinerariesRepositoryPort {
 
     return itineraryMapper.toItineraryDto(itinerary);
   }
+
+  async findPackageById(packageId: string) {
+    const pkg = await prisma.package.findUnique({
+      where: { id: packageId },
+      select: { id: true },
+    });
+
+    return pkg;
+  }
+
+  async findByPackageIdAndDay(packageId: string, dayNumber: number) {
+    const itinerary = await prisma.packageItinerary.findUnique({
+      where: {
+        packageId_dayNumber: {
+          packageId,
+          dayNumber,
+        },
+      },
+    });
+
+    if (!itinerary) return null;
+
+    return itineraryMapper.toItineraryDto(itinerary);
+  }
 }
